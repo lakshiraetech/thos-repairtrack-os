@@ -1,0 +1,525 @@
+// ==============================================================================
+// THOS RepairTrack OS + CollectIQ - Production Prisma Schema
+// Enterprise Multi-Tenant Automotive & Device Repair Management System
+// ==============================================================================
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ------------------------------------------------------------------------------
+// ENUMS
+// ------------------------------------------------------------------------------
+
+enum UserRole {
+  SUPER_ADMIN
+  ORG_OWNER
+  SERVICE_ADVISOR
+  SENIOR_TECHNICIAN
+  JUNIOR_TECHNICIAN
+  CASHIER
+  INVENTORY_MANAGER
+}
+
+enum VehicleCategory {
+  MOTORCYCLE
+  SCOOTER
+  SEDAN
+  SUV
+  HATCHBACK
+  SPORTS_CAR
+  ELECTRIC_VEHICLE
+  COMMERCIAL_VAN
+  HEAVY_TRUCK
+  PRECISION_DEVICE
+}
+
+enum TicketStatus {
+  INTAKE_LOGGED
+  INSPECTION_DIAGNOSIS
+  ESTIMATE_PENDING_APPROVAL
+  ESTIMATE_APPROVED
+  ESTIMATE_REJECTED
+  WORK_IN_PROGRESS
+  WAITING_FOR_PARTS
+  QUALITY_CONTROL_TESTING
+  REPAIRED // Trigger for automated CollectIQ Invoicing
+  READY_FOR_PICKUP
+  DELIVERED // Secured by Delivery OTP
+  CANCELLED
+}
+
+enum EstimateStatus {
+  DRAFT
+  DISPATCHED_TO_CUSTOMER
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum ItemType {
+  OEM_PART
+  AFTERMARKET_PART
+  LABOR_MECHANICAL
+  LABOR_ELECTRICAL
+  LABOR_DIAGNOSTIC
+  CONSUMABLE_FLUID
+  STORAGE_FEE
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PARTIALLY_PAID
+  PAID
+  OVERDUE
+  ESCALATED_RECOVERY
+  VOID
+}
+
+enum PaymentMethod {
+  STRIPE
+  RAZORPAY
+  UPI_DIRECT
+  CREDIT_DEBIT_CARD
+  CASH
+  BANK_TRANSFER
+  POS_TERMINAL
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  SUCCESS
+  FAILED
+  REFUNDED
+  DISPUTED
+}
+
+enum ReminderStep {
+  T0_INVOICE_ISSUED
+  T24_POLITE_REMINDER
+  T48_FIRM_REMINDER_WITH_DEMURRAGE
+  T72_FINAL_LEGAL_NOTICE
+  MANUAL_ESCALATION
+}
+
+enum ReminderChannel {
+  WHATSAPP
+  EMAIL
+  SMS
+  VOICE_CALL
+}
+
+enum ReminderStatus {
+  SCHEDULED
+  DISPATCHED
+  DELIVERED
+  READ
+  FAILED
+  CANCELLED_PAID
+}
+
+enum ReviewStatus {
+  PENDING_DISPATCH
+  DISPATCHED
+  OPENED
+  POSITIVE_RATED // >= 4 Stars (Redirected to Google Review)
+  FEEDBACK_COLLECTED // <= 3 Stars (Saved internally for manager resolution)
+  COMPLETED
+}
+
+// ------------------------------------------------------------------------------
+// MULTI-TENANT WORKSPACE & USERS
+// ------------------------------------------------------------------------------
+
+model Organization {
+  id                        String            @id @default(cuid())
+  name                      String
+  slug                      String            @unique
+  logoUrl                   String?
+  legalBusinessName         String?
+  taxIdNumber               String?           // GST / VAT / EIN
+  phoneNumber               String
+  supportEmail              String
+  websiteUrl                String?
+  currency                  String            @default("USD")
+  currencySymbol            String            @default("$")
+  defaultTaxRatePercent     Decimal           @default(18.0) @db.Decimal(5, 2)
+  
+  // CollectIQ Escalation Policy Settings
+  demurrageDailyFee         Decimal           @default(15.0) @db.Decimal(10, 2)
+  demurrageGraceHours       Int               @default(48)
+  
+  // WhatsApp Business API & Communication Config
+  whatsappPhoneNumberId     String?
+  whatsappAccessToken       String?           // Encrypted
+  whatsappBusinessAccountId String?
+  emailSmtpHost             String?
+  emailFromAddress          String?
+  
+  // Payment Gateway Config
+  stripePublishableKey      String?
+  stripeSecretKey           String?           // Encrypted
+  stripeWebhookSecret       String?
+  razorpayKeyId             String?
+  razorpayKeySecret         String?           // Encrypted
+  upiId                     String?           // e.g., shopname@okhdfcbank
+  
+  // Google Business Profile Review Booster Link
+  googlePlaceId             String?
+  googleReviewUrl           String?           // e.g., https://g.page/r/YOUR_ID/review
+  
+  createdAt                 DateTime          @default(now())
+  updatedAt                 DateTime          @updatedAt
+
+  users                     User[]
+  customers                 Customer[]
+  vehicles                  Vehicle[]
+  tickets                   Ticket[]
+  invoices                  Invoice[]
+  auditLogs                 AuditLog[]
+
+  @@index([slug])
+}
+
+model User {
+  id                    String            @id @default(cuid())
+  organizationId        String
+  organization          Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email                 String            @unique
+  passwordHash          String
+  fullName              String
+  phoneNumber           String?
+  role                  UserRole          @default(SERVICE_ADVISOR)
+  isActive              Boolean           @default(true)
+  avatarUrl             String?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  assignedTickets       Ticket[]          @relation("TechnicianTickets")
+  createdTickets        Ticket[]          @relation("AdvisorTickets")
+  verifiedDeliveries    DeliveryVerification[]
+  auditLogs             AuditLog[]
+
+  @@index([organizationId, role])
+}
+
+// ------------------------------------------------------------------------------
+// CUSTOMER & FLEET ASSETS
+// ------------------------------------------------------------------------------
+
+model Customer {
+  id                    String            @id @default(cuid())
+  organizationId        String
+  organization          Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  fullName              String
+  phone                 String            // E.164 formatted for WhatsApp delivery
+  email                 String?
+  billingAddress        String?
+  city                  String?
+  stateOrProvince       String?
+  postalCode            String?
+  country               String            @default("US")
+  isVip                 Boolean           @default(false)
+  notes                 String?
+  totalSpent            Decimal           @default(0.0) @db.Decimal(12, 2)
+  outstandingBalance    Decimal           @default(0.0) @db.Decimal(12, 2)
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  vehicles              Vehicle[]
+  tickets               Ticket[]
+  invoices              Invoice[]
+  reminders             ReminderSchedule[]
+  reviews               ReviewPrompt[]
+
+  @@unique([organizationId, phone])
+  @@index([organizationId, phone])
+}
+
+model Vehicle {
+  id                    String            @id @default(cuid())
+  organizationId        String
+  organization          Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  customerId            String
+  customer              Customer          @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  
+  category              VehicleCategory
+  brand                 String            // e.g., "Royal Enfield", "BMW", "Honda", "Tesla"
+  model                 String            // e.g., "Hunter 350", "M340i", "CBR650R", "Model Y"
+  year                  Int?
+  color                 String?
+  licensePlate          String            // Registration number
+  vinOrChassisNumber    String?
+  fuelType              String?           // Petrol, Diesel, Electric, Hybrid
+  currentOdometerKm     Int?
+  batteryHealthPercent  Int?              // For EVs
+  notes                 String?
+  
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  tickets               Ticket[]
+
+  @@index([organizationId, licensePlate])
+  @@index([customerId])
+}
+
+// ------------------------------------------------------------------------------
+// REPAIRTRACK CORE ENGINE: TICKETS, DIAGNOSTICS & ESTIMATES
+// ------------------------------------------------------------------------------
+
+model Ticket {
+  id                    String            @id @default(cuid())
+  ticketNumber          String            // e.g., "TK-2026-0842"
+  organizationId        String
+  organization          Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  customerId            String
+  customer              Customer          @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  vehicleId             String
+  vehicle               Vehicle           @relation(fields: [vehicleId], references: [id], onDelete: Restrict)
+  
+  advisorId             String
+  advisor               User              @relation("AdvisorTickets", fields: [advisorId], references: [id])
+  technicianId          String?
+  technician            User?             @relation("TechnicianTickets", fields: [technicianId], references: [id])
+
+  status                TicketStatus      @default(INTAKE_LOGGED)
+  intakeOdometerKm      Int?
+  fuelGaugePercent      Int?              @default(50)
+  customerComplaints    String            // Raw customer pain points / symptoms
+  technicianDiagnosis   String?           // Initial inspection assessment
+  damageChecklistJson   Json?             // Exterior/mechanical inspection markers
+  inventoryBelongings   String?           // Helmet, documents, charger left in vehicle
+
+  // Live Zero-Login Public Customer Tracking Token
+  publicTrackingToken   String            @unique @default(cuid())
+  
+  // Security Handover OTP (Generated when status = READY_FOR_PICKUP)
+  deliveryOtp           String?           // 6-digit cryptographic random code
+  deliveryOtpExpiresAt  DateTime?
+  isOtpVerified         Boolean           @default(false)
+  
+  estimatedCompletionAt DateTime?
+  completedAt           DateTime?
+  deliveredAt           DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  estimates             Estimate[]
+  ticketItems           TicketItem[]
+  invoice               Invoice?
+  deliveryVerification  DeliveryVerification?
+  reviewPrompt          ReviewPrompt?
+  auditLogs             AuditLog[]
+
+  @@unique([organizationId, ticketNumber])
+  @@index([organizationId, status])
+  @@index([publicTrackingToken])
+}
+
+model Estimate {
+  id                    String            @id @default(cuid())
+  ticketId              String
+  ticket                Ticket            @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  versionNumber         Int               @default(1)
+  
+  laborCostSubtotal     Decimal           @db.Decimal(10, 2)
+  partsCostSubtotal     Decimal           @db.Decimal(10, 2)
+  taxRatePercent        Decimal           @default(18.0) @db.Decimal(5, 2)
+  taxAmount             Decimal           @db.Decimal(10, 2)
+  totalEstimatedAmount  Decimal           @db.Decimal(10, 2)
+  
+  status                EstimateStatus    @default(DRAFT)
+  whatsappMessageId     String?
+  rejectionReason       String?
+  customerFeedback      String?
+  approvalClientIp      String?
+  approvalSignatureUrl  String?
+  approvedAt            DateTime?
+  rejectedAt            DateTime?
+  expiresAt             DateTime?
+  
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  @@index([ticketId, status])
+}
+
+model TicketItem {
+  id                    String            @id @default(cuid())
+  ticketId              String
+  ticket                Ticket            @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  type                  ItemType
+  sku                   String?           // Part number or labor code
+  brand                 String?           // e.g. "Brembo", "Motul", "Bosch", "OEM"
+  description           String            // e.g., "Front Brake Pads Set", "Brake Caliper Bleeding"
+  unitCost              Decimal           @db.Decimal(10, 2) // Shop cost
+  unitPrice             Decimal           @db.Decimal(10, 2) // Billed price to customer
+  quantity              Decimal           @default(1.0) @db.Decimal(8, 2)
+  discountPercent       Decimal           @default(0.0) @db.Decimal(5, 2)
+  taxPercent            Decimal           @default(18.0) @db.Decimal(5, 2)
+  totalAmount           Decimal           @db.Decimal(10, 2)
+  warrantyMonths        Int?              @default(6)
+  
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  @@index([ticketId])
+}
+
+// ------------------------------------------------------------------------------
+// COLLECTIQ ENGINE: INVOICES, PAYMENTS & ESCALATION REMINDERS
+// ------------------------------------------------------------------------------
+
+model Invoice {
+  id                    String            @id @default(cuid())
+  invoiceNumber         String            // e.g., "INV-2026-1094"
+  organizationId        String
+  organization          Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  ticketId              String            @unique
+  ticket                Ticket            @relation(fields: [ticketId], references: [id], onDelete: Restrict)
+  customerId            String
+  customer              Customer          @relation(fields: [customerId], references: [id], onDelete: Restrict)
+
+  status                InvoiceStatus     @default(ISSUED)
+  currency              String            @default("USD")
+  
+  partsSubtotal         Decimal           @db.Decimal(10, 2)
+  laborSubtotal         Decimal           @db.Decimal(10, 2)
+  demurrageStorageFee   Decimal           @default(0.0) @db.Decimal(10, 2) // Auto-applied after grace period
+  taxAmount             Decimal           @db.Decimal(10, 2)
+  discountAmount        Decimal           @default(0.0) @db.Decimal(10, 2)
+  grandTotal            Decimal           @db.Decimal(10, 2)
+  paidAmount            Decimal           @default(0.0) @db.Decimal(10, 2)
+  balanceDue            Decimal           @db.Decimal(10, 2)
+  
+  publicInvoiceToken    String            @unique @default(cuid())
+  instantPaymentUrl     String?           // Hosted checkout / UPI Intent link
+  pdfDownloadUrl        String?
+  
+  issuedAt              DateTime          @default(now())
+  dueDate               DateTime
+  paidAt                DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  payments              Payment[]
+  reminderSchedules     ReminderSchedule[]
+
+  @@unique([organizationId, invoiceNumber])
+  @@index([organizationId, status])
+  @@index([publicInvoiceToken])
+}
+
+model Payment {
+  id                    String            @id @default(cuid())
+  invoiceId             String
+  invoice               Invoice           @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  transactionReference  String            @unique // Gateway Transaction ID or Bank Ref
+  paymentMethod         PaymentMethod
+  paymentGateway        String?           // "STRIPE", "RAZORPAY", "MANUAL"
+  status                PaymentStatus     @default(PENDING)
+  amount                Decimal           @db.Decimal(10, 2)
+  currency              String            @default("USD")
+  gatewayFee            Decimal?          @db.Decimal(10, 2)
+  netAmount             Decimal?          @db.Decimal(10, 2)
+  receiptNumber         String?
+  gatewayPayloadJson    Json?             // Raw webhook response payload
+  paidAt                DateTime          @default(now())
+  createdAt             DateTime          @default(now())
+
+  @@index([invoiceId, status])
+  @@index([transactionReference])
+}
+
+model ReminderSchedule {
+  id                    String            @id @default(cuid())
+  invoiceId             String
+  invoice               Invoice           @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  customerId            String
+  customer              Customer          @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  
+  step                  ReminderStep
+  channel               ReminderChannel   @default(WHATSAPP)
+  status                ReminderStatus    @default(SCHEDULED)
+  
+  scheduledFor          DateTime
+  dispatchedAt          DateTime?
+  messageBody           String?
+  externalMessageId     String?           // WhatsApp/SendGrid Message ID
+  failureReason         String?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  @@index([scheduledFor, status])
+  @@index([invoiceId])
+}
+
+// ------------------------------------------------------------------------------
+// DELIVERY RECONCILIATION & GOOGLE 5-STAR REVIEW BOOSTER
+// ------------------------------------------------------------------------------
+
+model DeliveryVerification {
+  id                    String            @id @default(cuid())
+  ticketId              String            @unique
+  ticket                Ticket            @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  verifiedByUserId      String
+  verifiedByUser        User              @relation(fields: [verifiedByUserId], references: [id])
+  
+  enteredOtp            String
+  isMatched             Boolean           @default(true)
+  customerSignatureUrl  String?
+  odometerAtRelease     Int?
+  notes                 String?
+  handedOverAt          DateTime          @default(now())
+
+  @@index([ticketId])
+}
+
+model ReviewPrompt {
+  id                    String            @id @default(cuid())
+  ticketId              String            @unique
+  ticket                Ticket            @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  customerId            String
+  customer              Customer          @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  
+  status                ReviewStatus      @default(PENDING_DISPATCH)
+  starRating            Int?              // 1 to 5
+  privateFeedbackText   String?           // For internal complaint management if < 4 stars
+  googleReviewClicked   Boolean           @default(false)
+  dispatchedAt          DateTime?
+  respondedAt           DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  @@index([ticketId])
+}
+
+model AuditLog {
+  id                    String            @id @default(cuid())
+  organizationId        String
+  organization          Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId                String?
+  user                  User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  ticketId              String?
+  ticket                Ticket?           @relation(fields: [ticketId], references: [id], onDelete: SetNull)
+  
+  action                String            // e.g. "TICKET_CREATED", "STATUS_CHANGED", "INVOICE_GENERATED"
+  entityType            String            // "Ticket", "Invoice", "Payment"
+  entityId              String
+  oldValueJson          Json?
+  newValueJson          Json?
+  ipAddress             String?
+  userAgent             String?
+  createdAt             DateTime          @default(now())
+
+  @@index([organizationId, entityType, entityId])
+  @@index([createdAt])
+}

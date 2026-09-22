@@ -1,0 +1,26 @@
+{
+  "name": "thos-repairtrack-os",
+  "version": "1.0.0",
+  "description": "THOS RepairTrack OS + CollectIQ - Enterprise Repair Workshop Operating System & Autonomous Revenue Recovery Engine",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "build": "echo 'Ready for Vercel deployment'"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "repair-shop",
+    "workshop-os",
+    "automotive-saas",
+    "collectiq",
+    "revenue-recovery",
+    "vercel",
+    "nodejs"
+  ],
+  "author": "THOS Engineering",
+  "license": "UNLICENSED",
+  "private": true
+}
