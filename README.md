@@ -3,7 +3,7 @@
 > **Enterprise Workshop Operating System & Autonomous Revenue Recovery Engine**  
 > Streamline vehicle repair bay execution, automate WhatsApp estimates & approvals, generate tamper-evident invoices, and recover uncollected revenue automatically.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Flakshiraetech%2Fthos-repairtrack-os)
 
 ---
 
@@ -92,7 +92,7 @@ git add .
 git commit -m "feat: initial commit - THOS RepairTrack OS + CollectIQ engine with Vercel hosting setup"
 
 # 3. Add your GitHub remote repository URL
-git remote add origin https://github.com/<YOUR_USERNAME>/<YOUR_REPOSITORY_NAME>.git
+git remote add origin https://github.com/lakshiraetech/thos-repairtrack-os.git
 
 # 4. Push to GitHub
 git push -u origin main
