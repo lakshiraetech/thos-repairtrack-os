@@ -3,6 +3,18 @@
   "public": false,
   "rewrites": [
     {
+      "source": "/app",
+      "destination": "/public/app.html"
+    },
+    {
+      "source": "/app/(.*)",
+      "destination": "/public/app.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/public/app.html"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
     },

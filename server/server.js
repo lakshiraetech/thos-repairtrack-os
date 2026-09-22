@@ -338,13 +338,24 @@ async function handleRequest(req, res) {
     }
 
     // --------------------------------------------------------------------------
-    // STATIC FILE SERVING FOR FRONTEND WEB APP
+    // STATIC FILE SERVING FOR FRONTEND WEB APP & LANDING PAGE
     // --------------------------------------------------------------------------
-    let filePath = path.join(PUBLIC_DIR, pathname === "/" ? "index.html" : pathname);
+    let targetFile = pathname;
+    if (pathname === "/" || pathname === "") {
+      targetFile = "index.html";
+    } else if (pathname === "/app" || pathname === "/app/" || pathname === "/dashboard") {
+      targetFile = "app.html";
+    }
 
-    // If file doesn't exist, fallback to index.html for SPA routes
+    let filePath = path.join(PUBLIC_DIR, targetFile);
+
+    // If file doesn't exist, fallback appropriately
     if (!fs.existsSync(filePath)) {
-      filePath = path.join(PUBLIC_DIR, "index.html");
+      if (pathname.startsWith("/app")) {
+        filePath = path.join(PUBLIC_DIR, "app.html");
+      } else {
+        filePath = path.join(PUBLIC_DIR, "index.html");
+      }
     }
 
     const extname = path.extname(filePath).toLowerCase();

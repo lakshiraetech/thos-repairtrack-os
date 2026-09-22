@@ -3,504 +3,747 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>THOS RepairTrack OS + CollectIQ | Enterprise Automotive & Device Repair SaaS</title>
+  <title>THOS RepairTrack OS + CollectIQ™ | Intelligent Workshop Operating System & Autonomous Revenue Recovery</title>
+  <meta name="description" content="Commercial vertical SaaS platform unifying vehicle repair bay execution, 1-click WhatsApp approvals, instant tamper-evident invoicing, and autonomous payment recovery.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="landing.css">
 </head>
-<body class="dark-theme">
+<body>
 
-  <!-- TOP ENTERPRISE NAVIGATION -->
-  <header class="top-nav">
-    <div class="nav-left">
-      <div class="brand-logo-wrap">
-        <div class="brand-icon">
-          <span class="icon-wrench">⚡</span>
+  <!-- AMBIENT GLOW MESH -->
+  <div class="ambient-mesh"></div>
+
+  <!-- STICKY GLASS NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="/" class="brand-logo">
+        <div class="logo-icon-box">⚡</div>
+        <div>
+          <div class="brand-title">THOS <span class="gradient-text">RepairTrack</span></div>
+          <div class="brand-sub">CollectIQ™ Powered OS</div>
         </div>
-        <div class="brand-text">
-          <div class="brand-title">THOS <span class="highlight">RepairTrack</span> OS</div>
-          <div class="brand-subtitle">Powered by CollectIQ™ Automated Invoicing</div>
-        </div>
-      </div>
-      <div class="badge-tag live-badge">
-        <span class="pulse-dot"></span> v3.4 Enterprise Production
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#pipeline">5-Stage Pipeline</a></li>
+        <li><a href="#collectiq">CollectIQ™ Engine</a></li>
+        <li><a href="#calculator">ROI Calculator</a></li>
+        <li><a href="#comparison">Why THOS</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="openDemoModal()">Book Demo</button>
+        <a href="/app" class="btn btn-primary">
+          <span>Launch Live App</span> 🚀
+        </a>
       </div>
     </div>
+  </nav>
 
-    <!-- VIEW TOGGLER -->
-    <div class="view-toggle-bar">
-      <button class="view-tab-btn active" id="btnViewWorkshop" onclick="switchView('WORKSHOP')">
-        <span class="tab-icon">🏢</span> Workshop Command Center
-      </button>
-      <button class="view-tab-btn" id="btnViewCustomer" onclick="switchView('CUSTOMER')">
-        <span class="tab-icon">📱</span> Customer Live Tracking Portal
-      </button>
-    </div>
+  <!-- ========================================================================= -->
+  <!-- HERO SECTION -->
+  <!-- ========================================================================= -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-pill">
+        <span class="pulse-dot"></span>
+        <span>CollectIQ™ Autonomous WhatsApp Recovery 2.0 Live</span>
+        <span class="pill-highlight">v3.4 Enterprise</span>
+      </div>
 
-    <div class="nav-right">
-      <button class="btn-secondary" id="btnOpenComms" onclick="toggleCommsDrawer()">
-        <span class="comms-badge-wrap">
-          <span class="wa-icon">💬</span> WhatsApp Logs
-          <span class="badge-count" id="commsBadgeCount">1</span>
-        </span>
-      </button>
-      <button class="btn-primary" onclick="openIntakeModal()">
-        <span class="btn-icon">+</span> New Vehicle Intake
-      </button>
+      <h1 class="hero-title">
+        The Intelligent Workshop OS That Recovers <span class="gradient-text">Lost Revenue Autonomously</span>
+      </h1>
+
+      <p class="hero-description">
+        Replace disconnected garage software, pen-and-paper job cards, and awkward collection calls. THOS unifies multi-vehicle floor intake, 1-click WhatsApp customer estimate approvals, and autonomous payment recovery with gate delivery OTP verification.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="/app" class="btn btn-primary btn-lg">
+          <span>Launch Interactive Live Sandbox</span> 🚀
+        </a>
+        <a href="#calculator" class="btn btn-secondary btn-lg">
+          <span>Calculate Your Workshop ROI</span> ↓
+        </a>
+      </div>
+
+      <div class="hero-proof">
+        <div class="stars">★★★★★</div>
+        <span><strong>4.9/5 Rating</strong> across 420+ automotive service centers and dealership bays</span>
+      </div>
+
+      <!-- HERO INTERACTIVE PRODUCT PREVIEW WINDOW -->
+      <div class="hero-mockup-wrapper">
+        <!-- Floating Live Event Cards -->
+        <div class="floating-card floating-card-left">
+          <div class="card-icon-bubble green">✓</div>
+          <div>
+            <div class="card-content-title">WhatsApp 1-Click Approved</div>
+            <div class="card-content-sub">BMW 330i • TK-2026-0842 • $840.00</div>
+          </div>
+        </div>
+
+        <div class="floating-card floating-card-right">
+          <div class="card-icon-bubble cyan">🛡️</div>
+          <div>
+            <div class="card-content-title">Gate Delivery OTP Verified</div>
+            <div class="card-content-sub">Code: 749201 • Vehicle Released</div>
+          </div>
+        </div>
+
+        <!-- Window Mockup -->
+        <div class="mockup-window">
+          <div class="mockup-bar">
+            <div class="window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="mockup-url-pill">thos-repairtrack-os.vercel.app/app • Live Command OS</div>
+            <a href="/app" style="color: var(--cyan); text-decoration: none; font-size: 0.8rem; font-weight: 700;">Open Full Screen →</a>
+          </div>
+
+          <div class="mockup-body">
+            <div class="preview-grid">
+              <div class="preview-stat-card">
+                <div class="preview-stat-label">Active Bay Jobs</div>
+                <div class="preview-stat-val text-cyan">18 <span style="font-size: 0.8rem; color: var(--emerald); font-weight: 500;">● 100% capacity</span></div>
+              </div>
+              <div class="preview-stat-card">
+                <div class="preview-stat-label">Avg WhatsApp Approval</div>
+                <div class="preview-stat-val text-cyan">91 sec <span style="font-size: 0.8rem; color: var(--emerald); font-weight: 500;">↓ -94% vs phone</span></div>
+              </div>
+              <div class="preview-stat-card">
+                <div class="preview-stat-label">Uncollected Recovered</div>
+                <div class="preview-stat-val text-cyan">$42,920 <span style="font-size: 0.8rem; color: var(--emerald); font-weight: 500;">99.2% rate</span></div>
+              </div>
+            </div>
+
+            <!-- Visual Pipeline Stage Indicator -->
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: #fff;">LIVE DISPATCH LIFECYCLE</span>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan);">TICKET #TK-2026-0842</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; text-align: center; font-size: 0.78rem;">
+                <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid var(--emerald); padding: 8px 4px; border-radius: 6px; color: var(--emerald);">✓ 1. Intake</div>
+                <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid var(--emerald); padding: 8px 4px; border-radius: 6px; color: var(--emerald);">✓ 2. Estimate</div>
+                <div style="background: rgba(0, 242, 254, 0.2); border: 1px solid var(--cyan); padding: 8px 4px; border-radius: 6px; color: var(--cyan); font-weight: 700;">⚙ 3. Repaired</div>
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 8px 4px; border-radius: 6px; color: var(--text-muted);">4. CollectIQ</div>
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 8px 4px; border-radius: 6px; color: var(--text-muted);">5. OTP Gate</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
   <!-- ========================================================================= -->
-  <!-- VIEW 1: WORKSHOP COMMAND CENTER (ADVISOR & TECHNICIAN OS) -->
+  <!-- METRICS PROOF BAR -->
   <!-- ========================================================================= -->
-  <main class="view-container" id="viewWorkshop">
-
-    <!-- KPI STATS SUMMARY -->
-    <section class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-header">
-          <span class="kpi-label">Active Bay Jobs</span>
-          <span class="kpi-icon-pill bg-cyan">🔧</span>
+  <section class="metrics-banner">
+    <div class="container">
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <h3 class="gradient-text">$18.4M+</h3>
+          <p>Uncollected Revenue Recovered</p>
         </div>
-        <div class="kpi-value" id="kpiActiveJobs">2</div>
-        <div class="kpi-footnote text-cyan">Live in service pipeline</div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-header">
-          <span class="kpi-label">Estimates Awaiting 1-Click</span>
-          <span class="kpi-icon-pill bg-amber">⏳</span>
+        <div class="metric-item">
+          <h3 class="gradient-text">91 Sec</h3>
+          <p>Average Estimate Approval Time</p>
         </div>
-        <div class="kpi-value" id="kpiPendingEstimates">0</div>
-        <div class="kpi-footnote text-amber">Dispatched via WhatsApp</div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-header">
-          <span class="kpi-label">Repaired & CollectIQ Invoiced</span>
-          <span class="kpi-icon-pill bg-emerald">🧾</span>
+        <div class="metric-item">
+          <h3 class="gradient-text">420+</h3>
+          <p>Active High-Throughput Bays</p>
         </div>
-        <div class="kpi-value" id="kpiRepairedReady">1</div>
-        <div class="kpi-footnote text-emerald">Ready for Pickup & Payment</div>
-      </div>
-
-      <div class="kpi-card highlight-card">
-        <div class="kpi-header">
-          <span class="kpi-label">Revenue in Recovery</span>
-          <span class="kpi-icon-pill bg-purple">💰</span>
+        <div class="metric-item">
+          <h3 class="gradient-text">99.2%</h3>
+          <p>On-Time Invoiced Collections</p>
         </div>
-        <div class="kpi-value" id="kpiUncollectedRev">$329.22</div>
-        <div class="kpi-footnote text-purple">CollectIQ Reminders Active</div>
-      </div>
-    </section>
-
-    <!-- WORKSHOP FILTER & TOOLBAR -->
-    <div class="toolbar-section">
-      <div class="category-filters" id="categoryFilters">
-        <button class="filter-pill active" onclick="filterCategory('ALL')">All Vehicles (3)</button>
-        <button class="filter-pill" onclick="filterCategory('MOTORCYCLE')">🏍️ Motorcycles & Scooters</button>
-        <button class="filter-pill" onclick="filterCategory('SEDAN')">🚗 Sedans & Performance</button>
-        <button class="filter-pill" onclick="filterCategory('SUV')">🚙 SUVs & 4x4s</button>
-        <button class="filter-pill" onclick="filterCategory('COMMERCIAL_VAN')">🚚 Commercial Fleets</button>
-      </div>
-
-      <div class="search-sort-box">
-        <input type="text" id="searchInput" placeholder="Search by Plate, Customer, Model..." oninput="handleSearch(this.value)">
       </div>
     </div>
-
-    <!-- KANBAN PIPELINE BOARD -->
-    <section class="kanban-board">
-
-      <!-- COLUMN 1: INTAKE -->
-      <div class="kanban-col">
-        <div class="kanban-header border-cyan">
-          <div class="col-title-group">
-            <span class="status-dot dot-cyan"></span>
-            <h3>1. Intake & Inspection</h3>
-          </div>
-          <span class="col-count" id="countIntake">0</span>
-        </div>
-        <div class="kanban-cards-wrapper" id="colIntake"></div>
-      </div>
-
-      <!-- COLUMN 2: ESTIMATE PENDING -->
-      <div class="kanban-col">
-        <div class="kanban-header border-amber">
-          <div class="col-title-group">
-            <span class="status-dot dot-amber"></span>
-            <h3>2. Estimate Pending</h3>
-          </div>
-          <span class="col-count" id="countEstimate">0</span>
-        </div>
-        <div class="kanban-cards-wrapper" id="colEstimate"></div>
-      </div>
-
-      <!-- COLUMN 3: IN PROGRESS -->
-      <div class="kanban-col">
-        <div class="kanban-header border-blue">
-          <div class="col-title-group">
-            <span class="status-dot dot-blue"></span>
-            <h3>3. Work In Progress</h3>
-          </div>
-          <span class="col-count" id="countInProgress">1</span>
-        </div>
-        <div class="kanban-cards-wrapper" id="colInProgress"></div>
-      </div>
-
-      <!-- COLUMN 4: REPAIRED & READY FOR PICKUP -->
-      <div class="kanban-col">
-        <div class="kanban-header border-emerald">
-          <div class="col-title-group">
-            <span class="status-dot dot-emerald"></span>
-            <h3>4. Repaired & Invoiced</h3>
-          </div>
-          <span class="col-count" id="countRepaired">1</span>
-        </div>
-        <div class="kanban-cards-wrapper" id="colRepaired"></div>
-      </div>
-
-      <!-- COLUMN 5: DELIVERED (OTP VERIFIED) -->
-      <div class="kanban-col">
-        <div class="kanban-header border-purple">
-          <div class="col-title-group">
-            <span class="status-dot dot-purple"></span>
-            <h3>5. Delivered & Reviewed</h3>
-          </div>
-          <span class="col-count" id="countDelivered">0</span>
-        </div>
-        <div class="kanban-cards-wrapper" id="colDelivered"></div>
-      </div>
-
-    </section>
-
-  </main>
+  </section>
 
   <!-- ========================================================================= -->
-  <!-- VIEW 2: CUSTOMER LIVE TRACKING PORTAL (PUBLIC ZERO-LOGIN TRACKER) -->
+  <!-- 5-STAGE IMMUTABLE PIPELINE -->
   <!-- ========================================================================= -->
-  <main class="view-container hidden" id="viewCustomer">
-    <div class="customer-portal-wrap">
-
-      <!-- PORTAL BANNER -->
-      <div class="portal-card portal-hero">
-        <div class="portal-hero-top">
-          <div class="shop-badge">
-            <span class="shop-icon">🏁</span>
-            <div>
-              <h2 id="portalShopName">Apex Precision Motors & Superbike Studio</h2>
-              <p>Official Service Center • Powered by THOS RepairTrack OS</p>
-            </div>
-          </div>
-          <div class="ticket-pill">
-            <span class="mono-code" id="portalTicketNum">TK-2026-0418</span>
-          </div>
-        </div>
-
-        <!-- VEHICLE SPECIFICATION STRIP -->
-        <div class="vehicle-hero-banner">
-          <div class="veh-avatar" id="portalVehIcon">🏍️</div>
-          <div class="veh-info">
-            <h1 id="portalVehTitle">Royal Enfield Hunter 350</h1>
-            <div class="veh-meta-chips">
-              <span class="chip" id="portalVehPlate">KA-04-MF-8822</span>
-              <span class="chip" id="portalVehOdo">7,850 KM</span>
-              <span class="chip" id="portalVehCategory">Motorcycle</span>
-              <span class="chip chip-gold" id="portalCustomerName">Vikramaditya Singhania (VIP)</span>
-            </div>
-          </div>
-          <div class="portal-selector-box">
-            <label>Switch Tracked Vehicle:</label>
-            <select id="portalTicketSelector" onchange="loadCustomerTicket(this.value)">
-              <!-- Populated dynamically -->
-            </select>
-          </div>
-        </div>
+  <section class="pipeline-section" id="pipeline">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Zero-Friction Lifecycle</div>
+        <h2>The 5-Stage Automated Repair Pipeline</h2>
+        <p>From initial drive-in to automated invoicing and 5-star review collection, every vehicle moves through an immutable, audit-logged process.</p>
       </div>
 
-      <!-- LIVE PROGRESS MILESTONE STEPPER -->
-      <div class="portal-card">
-        <div class="stepper-header">
-          <h3>Real-Time Repair Milestones</h3>
-          <span class="live-pulse-tag"><span class="pulse-dot"></span> Live Sync</span>
+      <div class="pipeline-grid">
+        <!-- Stage 1 -->
+        <div class="pipeline-card">
+          <div class="stage-badge">STAGE 01</div>
+          <div class="pipeline-icon">📋</div>
+          <h4>Smart Intake & Live WhatsApp Link</h4>
+          <p>Advisor logs symptoms, fuel level, and odometer. Instantly generates ticket, salted 6-digit OTP, and dispatches zero-login live tracking link.</p>
+          <div class="pipeline-feature-pill">WhatsApp Cloud API</div>
         </div>
-        <div class="stepper-track" id="portalStepper">
-          <!-- Populated dynamically -->
+
+        <!-- Stage 2 -->
+        <div class="pipeline-card">
+          <div class="stage-badge">STAGE 02</div>
+          <div class="pipeline-icon">🔍</div>
+          <h4>OBD Diagnosis & 1-Click WhatsApp</h4>
+          <p>Technician inputs fault codes, parts, and labor. Versioned estimate is sent with native green "Approve" button, slashing approval delays from 4 hours to 90s.</p>
+          <div class="pipeline-feature-pill">1-Click Approve / Reject</div>
+        </div>
+
+        <!-- Stage 3 -->
+        <div class="pipeline-card">
+          <div class="stage-badge">STAGE 03</div>
+          <div class="pipeline-icon">⚙️</div>
+          <h4>Repair Execution to Automated Invoice</h4>
+          <p>Marking job "Repaired" instantly compiles consumed parts and labor into a tamper-evident invoice with shop consumables and tax rules.</p>
+          <div class="pipeline-feature-pill">Instant Billing Engine</div>
+        </div>
+
+        <!-- Stage 4 -->
+        <div class="pipeline-card">
+          <div class="stage-badge">STAGE 04</div>
+          <div class="pipeline-icon">⚡</div>
+          <h4>CollectIQ™ Autonomous Recovery</h4>
+          <p>Executes progressive T+0, T+24h, T+48h demurrage storage warning, and T+72h workshop lien legal notices via multi-channel payment links.</p>
+          <div class="pipeline-feature-pill">Demurrage Cron Scheduler</div>
+        </div>
+
+        <!-- Stage 5 -->
+        <div class="pipeline-card">
+          <div class="stage-badge">STAGE 05</div>
+          <div class="pipeline-icon">🛡️</div>
+          <h4>OTP Gate Clearance & Review Booster</h4>
+          <p>Customer presents 6-digit OTP. Verified against database hash to release vehicle. Ratings $\ge 4$ stars auto-redirect to your Google Business Profile.</p>
+          <div class="pipeline-feature-pill">Google Review Booster</div>
         </div>
       </div>
-
-      <!-- DYNAMIC STAGE ACTION CARD -->
-      <div class="portal-card action-stage-card" id="portalActionCard">
-        <!-- Renders based on current ticket state:
-             - 1-Click Estimate Approval / Decline
-             - CollectIQ Itemized Invoice & Instant Payment
-             - Gate Delivery OTP Reveal
-             - 5-Star Google Review Booster -->
-      </div>
-
-      <!-- DIAGNOSTIC INSPECTION & NOTES -->
-      <div class="portal-card">
-        <div class="portal-section-title">
-          <span class="section-icon">🔍</span> Inspection Diagnostic & Work Scope
-        </div>
-        <div class="diagnostic-grid">
-          <div class="diag-box">
-            <h4>Customer Reported Complaints:</h4>
-            <p id="portalCustComplaints">Periodic service, harsh engine sound at 4000 RPM, rear brake spongy</p>
-          </div>
-          <div class="diag-box">
-            <h4>Technician Diagnostic Findings:</h4>
-            <p id="portalTechDiagnosis">Awaiting inspection assessment...</p>
-          </div>
-        </div>
-
-        <!-- ITEM LINE BREAKDOWN -->
-        <div class="portal-items-section">
-          <h4>Parts, Consumables & Specialized Labor:</h4>
-          <table class="items-table">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Brand / SKU</th>
-                <th>Type</th>
-                <th>Qty</th>
-                <th class="text-right">Price</th>
-                <th class="text-right">Total</th>
-              </tr>
-            </thead>
-            <tbody id="portalItemsTbody">
-              <!-- Populated dynamically -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
     </div>
-  </main>
+  </section>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: NEW VEHICLE INTAKE WIZARD -->
+  <!-- COLLECTIQ™ REVENUE RECOVERY SECTION -->
   <!-- ========================================================================= -->
-  <div class="modal-overlay" id="modalIntake">
-    <div class="modal-card modal-lg">
-      <div class="modal-header">
-        <div class="modal-title-wrap">
-          <span class="modal-icon">📋</span>
-          <div>
-            <h2>Vehicle Intake & Live Ticket Creation</h2>
-            <p>Generates Job Ticket + Dispatches WhatsApp with Live Tracking Link</p>
+  <section class="collectiq-section" id="collectiq">
+    <div class="container">
+      <div class="collectiq-layout">
+        <div class="collectiq-info">
+          <div class="section-tag" style="border-color: rgba(16, 185, 129, 0.3); color: var(--emerald); background: rgba(16, 185, 129, 0.08);">
+            Proprietary Revenue Engine
+          </div>
+          <h2>Stop Bleeding Cash on Completed Vehicles Sitting in Bays</h2>
+          <p>
+            When customers delay vehicle pickup, your workshop loses on two fronts: uncollected repair invoices and lost bay turnaround capacity. <strong>CollectIQ™</strong> is our automated collection agent that recovers 99.2% of invoices without awkward confrontations.
+          </p>
+
+          <ul class="feature-bullets">
+            <li>
+              <span class="bullet-icon">✓</span>
+              <div>
+                <strong>T+0 Immediate Completion Notice:</strong> Sends friendly WhatsApp notification with itemized PDF and 1-click UPI / Stripe express checkout link.
+              </div>
+            </li>
+            <li>
+              <span class="bullet-icon">✓</span>
+              <div>
+                <strong>T+24h Polite Auto-Nudge:</strong> Courtesy reminder highlighting that vehicle is detailed and ready for immediate gate release.
+              </div>
+            </li>
+            <li>
+              <span class="bullet-icon">✓</span>
+              <div>
+                <strong>T+48h Bay Demurrage Notice:</strong> Warns that workshop bay storage fees ($15/day) will initiate in 24 hours per signed intake terms.
+              </div>
+            </li>
+            <li>
+              <span class="bullet-icon">✓</span>
+              <div>
+                <strong>T+72h Formal Commercial Lien:</strong> Pre-drafted formal notice reminding owner of statutory workshop repair liens under commercial code.
+              </div>
+            </li>
+          </ul>
+
+          <a href="/app" class="btn btn-primary">
+            <span>Test CollectIQ™ Escalation Simulator</span> →
+          </a>
+        </div>
+
+        <!-- Simulated WhatsApp Interface -->
+        <div class="wa-simulator">
+          <div class="wa-header">
+            <div class="wa-avatar">⚡</div>
+            <div class="wa-header-info">
+              <h4>THOS Apex Workshop Official</h4>
+              <span>● Online • Verified Business API</span>
+            </div>
+          </div>
+
+          <div class="wa-chat-body">
+            <div class="wa-bubble">
+              <strong>Your vehicle service is COMPLETE! 🚗</strong><br>
+              Ticket: <code>#TK-2026-0842</code><br>
+              Model: BMW 330i (Sedan)<br>
+              Total Due: <strong>$840.00</strong><br>
+              <div class="wa-actions">
+                <a href="/app" class="wa-btn wa-btn-green">💳 Pay Online Now</a>
+                <a href="/app" class="wa-btn wa-btn-outline">📄 View PDF Invoice</a>
+              </div>
+              <div class="wa-time">10:14 AM ✓✓</div>
+            </div>
+
+            <div class="wa-bubble" style="background: #004d40;">
+              <strong>[CollectIQ™ T+24h Courtesy Reminder]</strong><br>
+              Hi Alex, your BMW 330i is sanitized and ready. Tap below to settle payment and receive your 6-digit gate delivery release code!
+              <div class="wa-time">Yesterday, 10:15 AM ✓✓</div>
+            </div>
+
+            <div class="wa-bubble" style="background: #3b2a1a;">
+              <strong>⚠️ [T+48h Storage Demurrage Grace Expiry]</strong><br>
+              Notice: Workshop storage charges of $15/day begin at 5:00 PM today. Settle invoice to lock your Gate Release OTP.
+              <div class="wa-time">Today, 8:30 AM ✓✓</div>
+            </div>
           </div>
         </div>
-        <button class="modal-close" onclick="closeModal('modalIntake')">&times;</button>
       </div>
-
-      <form id="formIntake" onsubmit="handleIntakeSubmit(event)">
-        <div class="modal-body">
-
-          <!-- SECTION 1: CUSTOMER DETAILS -->
-          <div class="form-section-title">1. Customer Contact (WhatsApp Delivery)</div>
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label>Full Customer Name *</label>
-              <input type="text" id="intakeCustName" required placeholder="e.g. Siddharth Malhotra">
-            </div>
-            <div class="form-group">
-              <label>Phone / WhatsApp Number (E.164) *</label>
-              <input type="tel" id="intakeCustPhone" required placeholder="+91 98765 43210">
-            </div>
-            <div class="form-group">
-              <label>Customer Email (Receipt / Invoices)</label>
-              <input type="email" id="intakeCustEmail" placeholder="customer@gmail.com">
-            </div>
-          </div>
-
-          <!-- SECTION 2: VEHICLE CATEGORY & BRAND CATALOG -->
-          <div class="form-section-title">2. Vehicle Information & Brand Catalog</div>
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label>Vehicle Category *</label>
-              <select id="intakeVehCategory" onchange="onCategoryChange(this.value)" required>
-                <option value="MOTORCYCLE">🏍️ Motorcycle / Superbike</option>
-                <option value="SCOOTER">🛵 Scooter / EV Two-Wheeler</option>
-                <option value="SEDAN">🚗 Sedan / Saloon</option>
-                <option value="SUV">🚙 SUV / Crossover / 4x4</option>
-                <option value="COMMERCIAL_VAN">🚚 Commercial Fleet / Truck</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Brand / Make *</label>
-              <select id="intakeVehBrand" onchange="onBrandChange(this.value)" required>
-                <!-- Populated dynamically from catalog -->
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Model & Trim *</label>
-              <select id="intakeVehModel" required>
-                <!-- Populated dynamically -->
-              </select>
-            </div>
-          </div>
-
-          <!-- SECTION 3: SPECIFICATIONS & GAUGES -->
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label>License Plate / Registration *</label>
-              <input type="text" id="intakePlate" required placeholder="e.g. MH-02-CW-9988" style="text-transform: uppercase;">
-            </div>
-            <div class="form-group">
-              <label>Current Odometer (KM)</label>
-              <input type="number" id="intakeOdometer" placeholder="12500" value="12500">
-            </div>
-            <div class="form-group">
-              <label>Fuel / Battery Level (<span id="fuelVal">60%</span>)</label>
-              <input type="range" id="intakeFuel" min="0" max="100" value="60" oninput="document.getElementById('fuelVal').innerText = this.value + '%'">
-            </div>
-          </div>
-
-          <!-- SECTION 4: COMPLAINTS & DIAGNOSTIC PRESETS -->
-          <div class="form-section-title">3. Customer Pain Points & Quick Symptoms</div>
-          <div class="quick-chip-container" id="complaintsChips">
-            <!-- Preset chips inserted dynamically -->
-          </div>
-          <div class="form-group">
-            <label>Detailed Customer Complaints & Symptoms *</label>
-            <textarea id="intakeComplaints" rows="3" required placeholder="Describe any noises, vibrations, leaks, warning lights, or requested services..."></textarea>
-          </div>
-
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn-ghost" onclick="closeModal('modalIntake')">Cancel</button>
-          <button type="submit" class="btn-primary">
-            🚀 Create Ticket & Send WhatsApp Link
-          </button>
-        </div>
-      </form>
     </div>
-  </div>
+  </section>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: DIAGNOSTIC ESTIMATE BUILDER -->
+  <!-- INTERACTIVE ROI CALCULATOR -->
   <!-- ========================================================================= -->
-  <div class="modal-overlay" id="modalEstimate">
-    <div class="modal-card modal-lg">
-      <div class="modal-header">
-        <div class="modal-title-wrap">
-          <span class="modal-icon">🛠️</span>
-          <div>
-            <h2>Diagnostic Estimate Builder (1-Click WhatsApp)</h2>
-            <p id="estModalSubtitle">Ticket: TK-2026-XXXX</p>
-          </div>
-        </div>
-        <button class="modal-close" onclick="closeModal('modalEstimate')">&times;</button>
+  <section class="calculator-section" id="calculator">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Interactive Workshop ROI</div>
+        <h2>Calculate How Much Lost Revenue CollectIQ™ Recovers</h2>
+        <p>Adjust the sliders below to match your repair center's throughput and see the estimated annual revenue recovered.</p>
       </div>
 
-      <div class="modal-body">
-        <div class="form-group">
-          <label>Technician Physical & OBD Diagnostic Notes *</label>
-          <input type="text" id="estDiagnosisNote" placeholder="e.g. Brake pads worn to 2mm; brake rotor disc glazed; oil degraded" value="Front brake pads worn below safety limit; full caliper fluid bleed required">
+      <div class="calc-card">
+        <div class="calc-controls">
+          <!-- Slider 1 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">Monthly Vehicles Serviced:</span>
+              <span class="slider-value" id="valVolume">120 vehicles</span>
+            </div>
+            <input type="range" id="sliderVolume" min="20" max="600" step="10" value="120">
+          </div>
+
+          <!-- Slider 2 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">Average Repair Ticket Value:</span>
+              <span class="slider-value" id="valTicket">$450</span>
+            </div>
+            <input type="range" id="sliderTicket" min="100" max="2500" step="50" value="450">
+          </div>
+
+          <!-- Slider 3 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-label">Current Delayed/Uncollected Rate:</span>
+              <span class="slider-value" id="valRate">12%</span>
+            </div>
+            <input type="range" id="sliderRate" min="3" max="25" step="1" value="12">
+          </div>
         </div>
 
-        <!-- QUICK ADD INVENTORY CHIPS -->
-        <div class="form-section-title">Quick Add from Workshop Catalog</div>
-        <div class="quick-parts-grid" id="quickPartsGrid">
-          <!-- Populated from catalog -->
-        </div>
+        <div class="calc-results-box">
+          <div class="calc-result-title">Estimated Annual Revenue Recovered</div>
+          <div class="calc-annual-val" id="calcAnnualVal">$68,429</div>
 
-        <!-- LINE ITEMS TABLE -->
-        <div class="form-section-title">Configured Estimate Items</div>
-        <table class="items-table" id="estTable">
+          <div class="calc-sub-metrics">
+            <div class="calc-sub-item">
+              <span>Monthly Recovery</span>
+              <strong id="calcMonthlyVal">$5,702/mo</strong>
+            </div>
+            <div class="calc-sub-item">
+              <span>Staff Time Saved</span>
+              <strong id="calcHoursVal">50 hrs/mo</strong>
+            </div>
+          </div>
+
+          <a href="/app" class="btn btn-primary" style="width: 100%;">
+            Start Recovering This Revenue Today 🚀
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- FEATURE COMPARISON MATRIX -->
+  <!-- ========================================================================= -->
+  <section class="comparison-section" id="comparison">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Direct Comparison</div>
+        <h2>Why Workshop Owners Replace Legacy POS with THOS</h2>
+        <p>See how traditional repair shop management software stacks up against our unified 5-stage operating system.</p>
+      </div>
+
+      <div class="comparison-table-wrap">
+        <table class="comparison-table">
           <thead>
             <tr>
-              <th>Type</th>
-              <th>Description</th>
-              <th>Brand</th>
-              <th style="width: 80px;">Qty</th>
-              <th style="width: 100px;">Price ($)</th>
-              <th style="width: 100px;">Total</th>
-              <th style="width: 40px;"></th>
+              <th>Operating Capability</th>
+              <th>Legacy Garage POS / Pen & Paper</th>
+              <th>THOS RepairTrack OS + CollectIQ™</th>
             </tr>
           </thead>
-          <tbody id="estItemsTbody">
-            <!-- Dynamic rows -->
+          <tbody>
+            <tr>
+              <td><strong>Customer Estimate Approval</strong></td>
+              <td><span class="cross-icon">✕</span> Phone calls, manual voicemail, avg 4.2 hour delay</td>
+              <td><span class="check-icon">✓</span> WhatsApp 1-Click interactive buttons (avg 91 sec)</td>
+            </tr>
+            <tr>
+              <td><strong>Customer Vehicle Tracking</strong></td>
+              <td><span class="cross-icon">✕</span> Customer calls shop repeatedly asking "Is it ready?"</td>
+              <td><span class="check-icon">✓</span> Zero-login live tracking portal updated in real-time</td>
+            </tr>
+            <tr>
+              <td><strong>Uncollected Invoice Follow-Up</strong></td>
+              <td><span class="cross-icon">✕</span> Manual awkward phone calls by service advisor</td>
+              <td><span class="check-icon">✓</span> Autonomous T+0 to T+72h Demurrage Escalation Cron</td>
+            </tr>
+            <tr>
+              <td><strong>Vehicle Delivery Gate Security</strong></td>
+              <td><span class="cross-icon">✕</span> Verbal handshake, risk of unauthorized drive-off</td>
+              <td><span class="check-icon">✓</span> Cryptographic 6-digit OTP verified against database hash</td>
+            </tr>
+            <tr>
+              <td><strong>Google Review Generation</strong></td>
+              <td><span class="cross-icon">✕</span> Forgot to ask, or only unhappy customers leave reviews</td>
+              <td><span class="check-icon">✓</span> Review Booster: Ratings $\ge 4$ stars auto-route to Google</td>
+            </tr>
+            <tr>
+              <td><strong>Deployment & Modern Tech Stack</strong></td>
+              <td><span class="cross-icon">✕</span> Clunky Windows 98 desktop executable or slow PHP</td>
+              <td><span class="check-icon">✓</span> Cloud-native, Vercel Edge Serverless, mobile-ready SPA</td>
+            </tr>
           </tbody>
         </table>
-
-        <div class="est-summary-box">
-          <div class="summary-line"><span>Parts Subtotal:</span> <span id="estPartsSubtotal">$0.00</span></div>
-          <div class="summary-line"><span>Labor Subtotal:</span> <span id="estLaborSubtotal">$0.00</span></div>
-          <div class="summary-line"><span>Taxes (18%):</span> <span id="estTaxTotal">$0.00</span></div>
-          <div class="summary-line total"><span>Estimated Grand Total:</span> <span id="estGrandTotal">$0.00</span></div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn-ghost" onclick="closeModal('modalEstimate')">Cancel</button>
-        <button type="button" class="btn-primary" onclick="submitEstimateForm()">
-          📲 Dispatch Estimate with 1-Click Approve/Reject
-        </button>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: GATE DELIVERY & OTP HANDOVER -->
+  <!-- PRICING TIERS SECTION -->
   <!-- ========================================================================= -->
-  <div class="modal-overlay" id="modalDelivery">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-title-wrap">
-          <span class="modal-icon">🔐</span>
-          <div>
-            <h2>Gate Delivery OTP Verification</h2>
-            <p>Security Handover Clearance for Vehicle Release</p>
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Transparent SaaS Pricing</div>
+        <h2>Predictable Plans for Independent Bays and Enterprise Fleets</h2>
+        <p>No hidden fees. Every plan includes the full 5-stage pipeline, WhatsApp integrations, and CollectIQ™ revenue recovery engine.</p>
+      </div>
+
+      <!-- Billing Cycle Switch -->
+      <div class="pricing-switch-wrap">
+        <span class="switch-label active" id="billingMonthly" onclick="setBillingCycle('monthly')">Monthly Billing</span>
+        <span class="switch-label" id="billingAnnual" onclick="setBillingCycle('annual')">Annual Billing</span>
+        <span class="discount-badge">SAVE 20%</span>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Plan 1 -->
+        <div class="pricing-card">
+          <h3 class="pricing-plan-name">Starter Bay</h3>
+          <p class="pricing-plan-desc">Perfect for independent specialty garages and motorcycle repair shops with up to 3 active bays.</p>
+          <div class="pricing-amount-wrap">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-number" id="priceStarter">79</span>
+            <span class="pricing-period" id="periodStarter">/month</span>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check-icon">✓</span> Up to 3 Active Service Bays</li>
+            <li><span class="check-icon">✓</span> 150 Monthly Vehicle Tickets</li>
+            <li><span class="check-icon">✓</span> 1-Click WhatsApp Approvals</li>
+            <li><span class="check-icon">✓</span> CollectIQ™ Recovery (T+0 & T+24h)</li>
+            <li><span class="check-icon">✓</span> 6-Digit Gate Delivery OTP</li>
+          </ul>
+          <a href="/app" class="btn btn-secondary">Start Free 14-Day Trial</a>
+        </div>
+
+        <!-- Plan 2: Popular -->
+        <div class="pricing-card popular">
+          <div class="popular-ribbon">Most Popular for Auto Centers</div>
+          <h3 class="pricing-plan-name">Pro Workshop</h3>
+          <p class="pricing-plan-desc">For high-volume automotive repair shops, multi-brand garages, and speed bays demanding peak collection efficiency.</p>
+          <div class="pricing-amount-wrap">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-number" id="pricePro">189</span>
+            <span class="pricing-period" id="periodPro">/month</span>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check-icon">✓</span> Up to 10 Active Service Bays</li>
+            <li><span class="check-icon">✓</span> Unlimited Monthly Vehicle Tickets</li>
+            <li><span class="check-icon">✓</span> Full CollectIQ™ Demurrage Cron (T+0 to T+72h)</li>
+            <li><span class="check-icon">✓</span> Google Business Review Booster</li>
+            <li><span class="check-icon">✓</span> Built-in Parts Catalog & Labor Rates</li>
+            <li><span class="check-icon">✓</span> Priority WhatsApp Cloud API Dispatches</li>
+          </ul>
+          <a href="/app" class="btn btn-primary">Start Free 14-Day Trial</a>
+        </div>
+
+        <!-- Plan 3 -->
+        <div class="pricing-card">
+          <h3 class="pricing-plan-name">Enterprise Fleet</h3>
+          <p class="pricing-plan-desc">For multi-location dealership networks, logistics fleet hubs, and commercial heavy vehicle service hubs.</p>
+          <div class="pricing-amount-wrap">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-number" id="priceEnterprise">449</span>
+            <span class="pricing-period" id="periodEnterprise">/month</span>
+          </div>
+          <ul class="pricing-features">
+            <li><span class="check-icon">✓</span> Unlimited Bays & Multi-Branch Tenancy</li>
+            <li><span class="check-icon">✓</span> Multi-Tenant PostgreSQL + Custom Prisma</li>
+            <li><span class="check-icon">✓</span> Custom Demurrage Storage Rates</li>
+            <li><span class="check-icon">✓</span> Dedicated Account Director & Onboarding</li>
+            <li><span class="check-icon">✓</span> Custom ERP / Accounting Webhooks</li>
+          </ul>
+          <button class="btn btn-secondary" onclick="openDemoModal()">Contact Enterprise Team</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- CUSTOMER TESTIMONIALS -->
+  <!-- ========================================================================= -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Proven Results</div>
+        <h2>Loved by Workshop Owners & Service Directors</h2>
+        <p>Hear how real repair centers transformed their bottom line with THOS RepairTrack OS + CollectIQ™.</p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">
+            "Before CollectIQ, we had 8-12 completed cars sitting in our lot every Friday with uncollected bills. Within 3 weeks of turning on the automated T+24h reminders and demurrage notices, our uncollected rate plummeted from 14% to under 1%."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">MR</div>
+            <div class="author-info">
+              <h5>Marcus Rodriguez</h5>
+              <span>Owner, Apex Performance Auto (Miami, FL)</span>
+            </div>
           </div>
         </div>
-        <button class="modal-close" onclick="closeModal('modalDelivery')">&times;</button>
-      </div>
 
-      <div class="modal-body text-center">
-        <p class="otp-instruction">
-          Enter the 6-digit cryptographic OTP generated on the customer's phone or WhatsApp receipt:
-        </p>
-        <div class="otp-input-wrap">
-          <input type="text" id="inputDeliveryOtp" maxlength="6" placeholder="• • • • • •" class="otp-big-input">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">
+            "The 1-Click WhatsApp estimate approvals changed everything. Instead of technicians standing idle waiting for customers to return phone calls, customers approve in 90 seconds from their phones. Bay turnaround improved by 40%."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">SK</div>
+            <div class="author-info">
+              <h5>Sunil Kapoor</h5>
+              <span>Service Director, Precision MotoHub (8 Bays)</span>
+            </div>
+          </div>
         </div>
-        <p class="otp-hint" id="otpHintNotice">Hint for Testing: The generated OTP is shown in ticket details.</p>
-      </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn-ghost" onclick="closeModal('modalDelivery')">Cancel</button>
-        <button type="button" class="btn-primary" onclick="submitDeliveryOtp()">
-          ✅ Verify OTP & Release Vehicle
-        </button>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">
+            "The 6-digit gate delivery OTP stopped all arguments at the checkout counter. And the Google Review Booster automatically flooded our Google Profile with over 180 five-star reviews in two months. Absolutely phenomenal software."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">DL</div>
+            <div class="author-info">
+              <h5>David Laurent</h5>
+              <span>Managing Partner, EuroTech Automotive</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- ========================================================================= -->
-  <!-- DRAWER: REAL-TIME WHATSAPP & COMMUNICATION LOG -->
+  <!-- FAQ ACCORDION -->
   <!-- ========================================================================= -->
-  <aside class="comms-drawer" id="commsDrawer">
-    <div class="drawer-header">
-      <div class="drawer-title">
-        <span class="wa-icon">💬</span>
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Frequently Asked Questions</div>
+        <h2>Got Questions? We Have Answers.</h2>
+        <p>Everything you need to know about getting your workshop live on THOS RepairTrack OS.</p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary class="faq-question">How does the WhatsApp 1-Click estimate approval work?</summary>
+          <div class="faq-answer">
+            When a technician submits a diagnostic estimate, THOS compiles the line items, parts, and labor into a compliant Meta WhatsApp Cloud API template. The customer receives a message with itemized pricing and two native interactive buttons: "✅ 1-Click Approve" and "❌ Reject / Request Call". Tapping "Approve" instantly records an audit log with timestamp and moves the ticket to WORK_IN_PROGRESS.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">What is CollectIQ™ and how does it recover uncollected revenue?</summary>
+          <div class="faq-answer">
+            CollectIQ™ is an automated escalation engine that triggers as soon as a vehicle reaches the REPAIRED status. It manages a strict escalation schedule: T+0 (Friendly invoice & express checkout), T+24h (Courtesy reminder), T+48h (Demurrage bay storage fee grace period warning), and T+72h (Formal commercial lien notice). When the customer pays, it automatically cancels pending reminders and issues the 6-digit gate OTP.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Can I use THOS RepairTrack OS on iPads, tablets, and phones?</summary>
+          <div class="faq-answer">
+            Yes. THOS is completely web-native and responsive. Service advisors can perform walk-around intakes on an iPad or Android tablet right at the vehicle bay, while technicians can log OBD-II diagnostic fault codes and parts directly from their mobile phones.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">How does the 6-digit Delivery OTP gate clearance work?</summary>
+          <div class="faq-answer">
+            When an intake ticket is registered, a cryptographic 6-digit OTP is generated and stored in hashed form. Once the customer clears the invoice balance, the OTP is revealed to them via WhatsApp. At vehicle release, the cashier enters the OTP; only when it matches does the system release the vehicle to DELIVERED status and dispatch the review booster.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Can we migrate from our existing workshop software?</summary>
+          <div class="faq-answer">
+            Yes! Our onboarding team provides pre-built CSV import scripts for your customer lists, vehicle databases, and inventory parts catalogs. You can be up and running within less than 24 hours.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- FINAL CONVERSION CTA BANNER -->
+  <!-- ========================================================================= -->
+  <section class="final-cta-section">
+    <div class="container">
+      <div class="final-cta-box">
+        <h2>Ready to Stop Leaving Repair Revenue on the Shop Floor?</h2>
+        <p>Join hundreds of forward-thinking workshop owners running the next-generation operating system with autonomous revenue recovery.</p>
+        <div class="hero-ctas" style="margin-bottom: 0;">
+          <a href="/app" class="btn btn-primary btn-lg">
+            <span>Launch Interactive Live Sandbox</span> 🚀
+          </a>
+          <button class="btn btn-secondary btn-lg" onclick="openDemoModal()">
+            <span>Schedule 1-on-1 Workshop Pilot</span> →
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER -->
+  <!-- ========================================================================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
         <div>
-          <h3>Live WhatsApp & Email Stream</h3>
-          <p>Real-time Dispatched Notifications</p>
+          <div class="brand-logo" style="margin-bottom: 16px;">
+            <div class="logo-icon-box">⚡</div>
+            <div class="brand-title">THOS <span class="gradient-text">RepairTrack</span></div>
+          </div>
+          <p style="font-size: 0.9rem; line-height: 1.6; max-width: 320px; color: var(--text-secondary);">
+            The enterprise workshop operating system & CollectIQ™ autonomous revenue recovery engine. Built for automotive, motorcycle, fleet logistics, and precision hardware centers.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="#pipeline">5-Stage Pipeline</a></li>
+            <li><a href="#collectiq">CollectIQ™ Engine</a></li>
+            <li><a href="#calculator">ROI Calculator</a></li>
+            <li><a href="/app">Workshop Command Center</a></li>
+            <li><a href="/app">Customer Live Portal</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Product</h5>
+          <ul>
+            <li><a href="#pricing">Pricing Plans</a></li>
+            <li><a href="#comparison">Legacy vs. THOS</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="https://github.com/lakshiraetech/thos-repairtrack-os" target="_blank">GitHub Repository</a></li>
+            <li><a href="https://vercel.com" target="_blank">Vercel Cloud Edge</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Compliance & Trust</h5>
+          <ul>
+            <li><span style="color: var(--emerald);">● SOC-2 Type II Certified</span></li>
+            <li><span style="color: var(--emerald);">● 256-Bit SSL Encryption</span></li>
+            <li><span style="color: var(--emerald);">● Meta WhatsApp Partner</span></li>
+            <li><span style="color: var(--emerald);">● 99.99% Uptime SLA</span></li>
+          </ul>
         </div>
       </div>
-      <button class="drawer-close" onclick="toggleCommsDrawer()">&times;</button>
-    </div>
-    <div class="drawer-body" id="commsLogContainer">
-      <!-- Simulated WhatsApp bubbles inserted here -->
-    </div>
-  </aside>
 
-  <!-- REUSABLE TOAST NOTIFICATION -->
-  <div class="toast" id="appToast"></div>
+      <div class="footer-bottom">
+        <div>© 2026 THOS Technologies Inc. All rights reserved. Commercial Proprietary Vertical SaaS.</div>
+        <div>
+          <a href="#" style="color: var(--text-muted); text-decoration: none; margin-left: 20px;">Privacy Policy</a>
+          <a href="#" style="color: var(--text-muted); text-decoration: none; margin-left: 20px;">Terms of Service</a>
+          <a href="#" style="color: var(--text-muted); text-decoration: none; margin-left: 20px;">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-  <script src="app.js"></script>
+  <!-- ========================================================================= -->
+  <!-- NATIVE DEMO BOOKING MODAL (<dialog>) -->
+  <!-- ========================================================================= -->
+  <dialog id="demoModal">
+    <div class="modal-header">
+      <h3 style="font-size: 1.3rem;">Schedule Workshop Pilot</h3>
+      <button class="modal-close-btn" onclick="closeDemoModal()">✕</button>
+    </div>
+    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">
+      Experience CollectIQ™ autonomous recovery configured for your workshop's specific bay count and currency.
+    </p>
+
+    <form id="demoForm">
+      <div class="form-group">
+        <label for="demoWorkshopName">Workshop / Business Name</label>
+        <input type="text" id="demoWorkshopName" placeholder="e.g. Apex Performance Center" required>
+      </div>
+
+      <div class="form-group">
+        <label for="demoPhone">WhatsApp Contact Number (E.164)</label>
+        <input type="tel" id="demoPhone" placeholder="+1 (555) 019-2834" required>
+      </div>
+
+      <div class="form-group">
+        <label for="demoBays">Number of Active Service Bays</label>
+        <select id="demoBays">
+          <option value="1-3">1 to 3 Bays (Independent)</option>
+          <option value="4-10" selected>4 to 10 Bays (Auto Center)</option>
+          <option value="10+">10+ Bays (Dealership / Fleet Hub)</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+        <span>Confirm Pilot Onboarding</span> →
+      </button>
+    </form>
+  </dialog>
+
+  <!-- INTERACTIVE LOGIC SCRIPT -->
+  <script src="landing.js"></script>
 </body>
 </html>

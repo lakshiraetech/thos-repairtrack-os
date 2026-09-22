@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THOS RepairTrack OS + CollectIQ | Enterprise Automotive & Device Repair SaaS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+
+  <!-- TOP ENTERPRISE NAVIGATION -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <div class="brand-logo-wrap">
+        <div class="brand-icon">
+          <span class="icon-wrench">⚡</span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">THOS <span class="highlight">RepairTrack</span> OS</div>
+          <div class="brand-subtitle">Powered by CollectIQ™ Automated Invoicing</div>
+        </div>
+      </div>
+      <div class="badge-tag live-badge">
+        <span class="pulse-dot"></span> v3.4 Enterprise Production
+      </div>
+    </div>
+
+    <!-- VIEW TOGGLER -->
+    <div class="view-toggle-bar">
+      <button class="view-tab-btn active" id="btnViewWorkshop" onclick="switchView('WORKSHOP')">
+        <span class="tab-icon">🏢</span> Workshop Command Center
+      </button>
+      <button class="view-tab-btn" id="btnViewCustomer" onclick="switchView('CUSTOMER')">
+        <span class="tab-icon">📱</span> Customer Live Tracking Portal
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <a href="/" class="btn-secondary" style="text-decoration: none; padding: 8px 14px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+        <span>←</span> Home
+      </a>
+      <button class="btn-secondary" id="btnOpenComms" onclick="toggleCommsDrawer()">
+        <span class="comms-badge-wrap">
+          <span class="wa-icon">💬</span> WhatsApp Logs
+          <span class="badge-count" id="commsBadgeCount">1</span>
+        </span>
+      </button>
+      <button class="btn-primary" onclick="openIntakeModal()">
+        <span class="btn-icon">+</span> New Vehicle Intake
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 1: WORKSHOP COMMAND CENTER (ADVISOR & TECHNICIAN OS) -->
+  <!-- ========================================================================= -->
+  <main class="view-container" id="viewWorkshop">
+
+    <!-- KPI STATS SUMMARY -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Active Bay Jobs</span>
+          <span class="kpi-icon-pill bg-cyan">🔧</span>
+        </div>
+        <div class="kpi-value" id="kpiActiveJobs">2</div>
+        <div class="kpi-footnote text-cyan">Live in service pipeline</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Estimates Awaiting 1-Click</span>
+          <span class="kpi-icon-pill bg-amber">⏳</span>
+        </div>
+        <div class="kpi-value" id="kpiPendingEstimates">0</div>
+        <div class="kpi-footnote text-amber">Dispatched via WhatsApp</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Repaired & CollectIQ Invoiced</span>
+          <span class="kpi-icon-pill bg-emerald">🧾</span>
+        </div>
+        <div class="kpi-value" id="kpiRepairedReady">1</div>
+        <div class="kpi-footnote text-emerald">Ready for Pickup & Payment</div>
+      </div>
+
+      <div class="kpi-card highlight-card">
+        <div class="kpi-header">
+          <span class="kpi-label">Revenue in Recovery</span>
+          <span class="kpi-icon-pill bg-purple">💰</span>
+        </div>
+        <div class="kpi-value" id="kpiUncollectedRev">$329.22</div>
+        <div class="kpi-footnote text-purple">CollectIQ Reminders Active</div>
+      </div>
+    </section>
+
+    <!-- WORKSHOP FILTER & TOOLBAR -->
+    <div class="toolbar-section">
+      <div class="category-filters" id="categoryFilters">
+        <button class="filter-pill active" onclick="filterCategory('ALL')">All Vehicles (3)</button>
+        <button class="filter-pill" onclick="filterCategory('MOTORCYCLE')">🏍️ Motorcycles & Scooters</button>
+        <button class="filter-pill" onclick="filterCategory('SEDAN')">🚗 Sedans & Performance</button>
+        <button class="filter-pill" onclick="filterCategory('SUV')">🚙 SUVs & 4x4s</button>
+        <button class="filter-pill" onclick="filterCategory('COMMERCIAL_VAN')">🚚 Commercial Fleets</button>
+      </div>
+
+      <div class="search-sort-box">
+        <input type="text" id="searchInput" placeholder="Search by Plate, Customer, Model..." oninput="handleSearch(this.value)">
+      </div>
+    </div>
+
+    <!-- KANBAN PIPELINE BOARD -->
+    <section class="kanban-board">
+
+      <!-- COLUMN 1: INTAKE -->
+      <div class="kanban-col">
+        <div class="kanban-header border-cyan">
+          <div class="col-title-group">
+            <span class="status-dot dot-cyan"></span>
+            <h3>1. Intake & Inspection</h3>
+          </div>
+          <span class="col-count" id="countIntake">0</span>
+        </div>
+        <div class="kanban-cards-wrapper" id="colIntake"></div>
+      </div>
+
+      <!-- COLUMN 2: ESTIMATE PENDING -->
+      <div class="kanban-col">
+        <div class="kanban-header border-amber">
+          <div class="col-title-group">
+            <span class="status-dot dot-amber"></span>
+            <h3>2. Estimate Pending</h3>
+          </div>
+          <span class="col-count" id="countEstimate">0</span>
+        </div>
+        <div class="kanban-cards-wrapper" id="colEstimate"></div>
+      </div>
+
+      <!-- COLUMN 3: IN PROGRESS -->
+      <div class="kanban-col">
+        <div class="kanban-header border-blue">
+          <div class="col-title-group">
+            <span class="status-dot dot-blue"></span>
+            <h3>3. Work In Progress</h3>
+          </div>
+          <span class="col-count" id="countInProgress">1</span>
+        </div>
+        <div class="kanban-cards-wrapper" id="colInProgress"></div>
+      </div>
+
+      <!-- COLUMN 4: REPAIRED & READY FOR PICKUP -->
+      <div class="kanban-col">
+        <div class="kanban-header border-emerald">
+          <div class="col-title-group">
+            <span class="status-dot dot-emerald"></span>
+            <h3>4. Repaired & Invoiced</h3>
+          </div>
+          <span class="col-count" id="countRepaired">1</span>
+        </div>
+        <div class="kanban-cards-wrapper" id="colRepaired"></div>
+      </div>
+
+      <!-- COLUMN 5: DELIVERED (OTP VERIFIED) -->
+      <div class="kanban-col">
+        <div class="kanban-header border-purple">
+          <div class="col-title-group">
+            <span class="status-dot dot-purple"></span>
+            <h3>5. Delivered & Reviewed</h3>
+          </div>
+          <span class="col-count" id="countDelivered">0</span>
+        </div>
+        <div class="kanban-cards-wrapper" id="colDelivered"></div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 2: CUSTOMER LIVE TRACKING PORTAL (PUBLIC ZERO-LOGIN TRACKER) -->
+  <!-- ========================================================================= -->
+  <main class="view-container hidden" id="viewCustomer">
+    <div class="customer-portal-wrap">
+
+      <!-- PORTAL BANNER -->
+      <div class="portal-card portal-hero">
+        <div class="portal-hero-top">
+          <div class="shop-badge">
+            <span class="shop-icon">🏁</span>
+            <div>
+              <h2 id="portalShopName">Apex Precision Motors & Superbike Studio</h2>
+              <p>Official Service Center • Powered by THOS RepairTrack OS</p>
+            </div>
+          </div>
+          <div class="ticket-pill">
+            <span class="mono-code" id="portalTicketNum">TK-2026-0418</span>
+          </div>
+        </div>
+
+        <!-- VEHICLE SPECIFICATION STRIP -->
+        <div class="vehicle-hero-banner">
+          <div class="veh-avatar" id="portalVehIcon">🏍️</div>
+          <div class="veh-info">
+            <h1 id="portalVehTitle">Royal Enfield Hunter 350</h1>
+            <div class="veh-meta-chips">
+              <span class="chip" id="portalVehPlate">KA-04-MF-8822</span>
+              <span class="chip" id="portalVehOdo">7,850 KM</span>
+              <span class="chip" id="portalVehCategory">Motorcycle</span>
+              <span class="chip chip-gold" id="portalCustomerName">Vikramaditya Singhania (VIP)</span>
+            </div>
+          </div>
+          <div class="portal-selector-box">
+            <label>Switch Tracked Vehicle:</label>
+            <select id="portalTicketSelector" onchange="loadCustomerTicket(this.value)">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE PROGRESS MILESTONE STEPPER -->
+      <div class="portal-card">
+        <div class="stepper-header">
+          <h3>Real-Time Repair Milestones</h3>
+          <span class="live-pulse-tag"><span class="pulse-dot"></span> Live Sync</span>
+        </div>
+        <div class="stepper-track" id="portalStepper">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- DYNAMIC STAGE ACTION CARD -->
+      <div class="portal-card action-stage-card" id="portalActionCard">
+        <!-- Renders based on current ticket state:
+             - 1-Click Estimate Approval / Decline
+             - CollectIQ Itemized Invoice & Instant Payment
+             - Gate Delivery OTP Reveal
+             - 5-Star Google Review Booster -->
+      </div>
+
+      <!-- DIAGNOSTIC INSPECTION & NOTES -->
+      <div class="portal-card">
+        <div class="portal-section-title">
+          <span class="section-icon">🔍</span> Inspection Diagnostic & Work Scope
+        </div>
+        <div class="diagnostic-grid">
+          <div class="diag-box">
+            <h4>Customer Reported Complaints:</h4>
+            <p id="portalCustComplaints">Periodic service, harsh engine sound at 4000 RPM, rear brake spongy</p>
+          </div>
+          <div class="diag-box">
+            <h4>Technician Diagnostic Findings:</h4>
+            <p id="portalTechDiagnosis">Awaiting inspection assessment...</p>
+          </div>
+        </div>
+
+        <!-- ITEM LINE BREAKDOWN -->
+        <div class="portal-items-section">
+          <h4>Parts, Consumables & Specialized Labor:</h4>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Brand / SKU</th>
+                <th>Type</th>
+                <th>Qty</th>
+                <th class="text-right">Price</th>
+                <th class="text-right">Total</th>
+              </tr>
+            </thead>
+            <tbody id="portalItemsTbody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: NEW VEHICLE INTAKE WIZARD -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modalIntake">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-icon">📋</span>
+          <div>
+            <h2>Vehicle Intake & Live Ticket Creation</h2>
+            <p>Generates Job Ticket + Dispatches WhatsApp with Live Tracking Link</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalIntake')">&times;</button>
+      </div>
+
+      <form id="formIntake" onsubmit="handleIntakeSubmit(event)">
+        <div class="modal-body">
+
+          <!-- SECTION 1: CUSTOMER DETAILS -->
+          <div class="form-section-title">1. Customer Contact (WhatsApp Delivery)</div>
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>Full Customer Name *</label>
+              <input type="text" id="intakeCustName" required placeholder="e.g. Siddharth Malhotra">
+            </div>
+            <div class="form-group">
+              <label>Phone / WhatsApp Number (E.164) *</label>
+              <input type="tel" id="intakeCustPhone" required placeholder="+91 98765 43210">
+            </div>
+            <div class="form-group">
+              <label>Customer Email (Receipt / Invoices)</label>
+              <input type="email" id="intakeCustEmail" placeholder="customer@gmail.com">
+            </div>
+          </div>
+
+          <!-- SECTION 2: VEHICLE CATEGORY & BRAND CATALOG -->
+          <div class="form-section-title">2. Vehicle Information & Brand Catalog</div>
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>Vehicle Category *</label>
+              <select id="intakeVehCategory" onchange="onCategoryChange(this.value)" required>
+                <option value="MOTORCYCLE">🏍️ Motorcycle / Superbike</option>
+                <option value="SCOOTER">🛵 Scooter / EV Two-Wheeler</option>
+                <option value="SEDAN">🚗 Sedan / Saloon</option>
+                <option value="SUV">🚙 SUV / Crossover / 4x4</option>
+                <option value="COMMERCIAL_VAN">🚚 Commercial Fleet / Truck</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Brand / Make *</label>
+              <select id="intakeVehBrand" onchange="onBrandChange(this.value)" required>
+                <!-- Populated dynamically from catalog -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Model & Trim *</label>
+              <select id="intakeVehModel" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <!-- SECTION 3: SPECIFICATIONS & GAUGES -->
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>License Plate / Registration *</label>
+              <input type="text" id="intakePlate" required placeholder="e.g. MH-02-CW-9988" style="text-transform: uppercase;">
+            </div>
+            <div class="form-group">
+              <label>Current Odometer (KM)</label>
+              <input type="number" id="intakeOdometer" placeholder="12500" value="12500">
+            </div>
+            <div class="form-group">
+              <label>Fuel / Battery Level (<span id="fuelVal">60%</span>)</label>
+              <input type="range" id="intakeFuel" min="0" max="100" value="60" oninput="document.getElementById('fuelVal').innerText = this.value + '%'">
+            </div>
+          </div>
+
+          <!-- SECTION 4: COMPLAINTS & DIAGNOSTIC PRESETS -->
+          <div class="form-section-title">3. Customer Pain Points & Quick Symptoms</div>
+          <div class="quick-chip-container" id="complaintsChips">
+            <!-- Preset chips inserted dynamically -->
+          </div>
+          <div class="form-group">
+            <label>Detailed Customer Complaints & Symptoms *</label>
+            <textarea id="intakeComplaints" rows="3" required placeholder="Describe any noises, vibrations, leaks, warning lights, or requested services..."></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-ghost" onclick="closeModal('modalIntake')">Cancel</button>
+          <button type="submit" class="btn-primary">
+            🚀 Create Ticket & Send WhatsApp Link
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: DIAGNOSTIC ESTIMATE BUILDER -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modalEstimate">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-icon">🛠️</span>
+          <div>
+            <h2>Diagnostic Estimate Builder (1-Click WhatsApp)</h2>
+            <p id="estModalSubtitle">Ticket: TK-2026-XXXX</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalEstimate')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Technician Physical & OBD Diagnostic Notes *</label>
+          <input type="text" id="estDiagnosisNote" placeholder="e.g. Brake pads worn to 2mm; brake rotor disc glazed; oil degraded" value="Front brake pads worn below safety limit; full caliper fluid bleed required">
+        </div>
+
+        <!-- QUICK ADD INVENTORY CHIPS -->
+        <div class="form-section-title">Quick Add from Workshop Catalog</div>
+        <div class="quick-parts-grid" id="quickPartsGrid">
+          <!-- Populated from catalog -->
+        </div>
+
+        <!-- LINE ITEMS TABLE -->
+        <div class="form-section-title">Configured Estimate Items</div>
+        <table class="items-table" id="estTable">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Brand</th>
+              <th style="width: 80px;">Qty</th>
+              <th style="width: 100px;">Price ($)</th>
+              <th style="width: 100px;">Total</th>
+              <th style="width: 40px;"></th>
+            </tr>
+          </thead>
+          <tbody id="estItemsTbody">
+            <!-- Dynamic rows -->
+          </tbody>
+        </table>
+
+        <div class="est-summary-box">
+          <div class="summary-line"><span>Parts Subtotal:</span> <span id="estPartsSubtotal">$0.00</span></div>
+          <div class="summary-line"><span>Labor Subtotal:</span> <span id="estLaborSubtotal">$0.00</span></div>
+          <div class="summary-line"><span>Taxes (18%):</span> <span id="estTaxTotal">$0.00</span></div>
+          <div class="summary-line total"><span>Estimated Grand Total:</span> <span id="estGrandTotal">$0.00</span></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" onclick="closeModal('modalEstimate')">Cancel</button>
+        <button type="button" class="btn-primary" onclick="submitEstimateForm()">
+          📲 Dispatch Estimate with 1-Click Approve/Reject
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: GATE DELIVERY & OTP HANDOVER -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modalDelivery">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-icon">🔐</span>
+          <div>
+            <h2>Gate Delivery OTP Verification</h2>
+            <p>Security Handover Clearance for Vehicle Release</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalDelivery')">&times;</button>
+      </div>
+
+      <div class="modal-body text-center">
+        <p class="otp-instruction">
+          Enter the 6-digit cryptographic OTP generated on the customer's phone or WhatsApp receipt:
+        </p>
+        <div class="otp-input-wrap">
+          <input type="text" id="inputDeliveryOtp" maxlength="6" placeholder="• • • • • •" class="otp-big-input">
+        </div>
+        <p class="otp-hint" id="otpHintNotice">Hint for Testing: The generated OTP is shown in ticket details.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" onclick="closeModal('modalDelivery')">Cancel</button>
+        <button type="button" class="btn-primary" onclick="submitDeliveryOtp()">
+          ✅ Verify OTP & Release Vehicle
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- DRAWER: REAL-TIME WHATSAPP & COMMUNICATION LOG -->
+  <!-- ========================================================================= -->
+  <aside class="comms-drawer" id="commsDrawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span class="wa-icon">💬</span>
+        <div>
+          <h3>Live WhatsApp & Email Stream</h3>
+          <p>Real-time Dispatched Notifications</p>
+        </div>
+      </div>
+      <button class="drawer-close" onclick="toggleCommsDrawer()">&times;</button>
+    </div>
+    <div class="drawer-body" id="commsLogContainer">
+      <!-- Simulated WhatsApp bubbles inserted here -->
+    </div>
+  </aside>
+
+  <!-- REUSABLE TOAST NOTIFICATION -->
+  <div class="toast" id="appToast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
